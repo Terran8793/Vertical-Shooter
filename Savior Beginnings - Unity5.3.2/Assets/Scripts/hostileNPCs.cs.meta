@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: bf8c027a29026d249ae74040747764fc
+timeCreated: 1448019483
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - droneWhite: {instanceID: 0}
+  - droneBlack: {instanceID: 0}
+  - platform: {instanceID: 0}
+  - fighterWhite: {instanceID: 0}
+  - fighterBlack: {instanceID: 0}
+  - suicideBomber: {instanceID: 0}
+  - battleship: {instanceID: 0}
+  - spawnPoint1: {instanceID: 0}
+  - spawnPoint2: {instanceID: 0}
+  - spawnPoint3: {instanceID: 0}
+  - spawnPoint4: {instanceID: 0}
+  - spawnPoint5: {instanceID: 0}
+  - spawnPoint6: {instanceID: 0}
+  - background: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

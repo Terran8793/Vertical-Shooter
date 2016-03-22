@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 1ac0b34ede85e3d458b074955e495b8d
+timeCreated: 1444728564
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - droneGO: {fileID: 100264, guid: 306f33ef96fb9174fbcd75dbb1f879c7, type: 2}
+  - droneBullet: {fileID: 158044, guid: ae3df3f76e9275f4d94231a8eacb293f, type: 2}
+  - dronePrefab: {fileID: 5459832, guid: 306f33ef96fb9174fbcd75dbb1f879c7, type: 2}
+  - dronePrefabTransform: {fileID: 419718, guid: 306f33ef96fb9174fbcd75dbb1f879c7,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

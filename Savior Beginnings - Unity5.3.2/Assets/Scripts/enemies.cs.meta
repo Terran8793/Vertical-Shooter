@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b205d7a4c84da994c807765a9d48747c
+timeCreated: 1444738190
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - droneB: {fileID: 5447066, guid: ae3df3f76e9275f4d94231a8eacb293f, type: 2}
+  - dronePrefabTransform: {fileID: 419718, guid: 306f33ef96fb9174fbcd75dbb1f879c7,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
