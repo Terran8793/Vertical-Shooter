@@ -5,7 +5,6 @@ using System.Collections;
 
 public class playerControls : MonoBehaviour
 {
-
   public Transform playerT;
   public Transform bulletPrefabTransform;
   public Transform gameOverButtonT;
@@ -85,21 +84,12 @@ public class playerControls : MonoBehaviour
 
   //Keys
   string chargeKey = "z";
-  string upKey = "up";
-  string downKey = "down";
-  string leftKey = "left";
-  string rightKey = "right";
-  string shootKey = "c";
-  string missleKey = "b";
   string switchGunKey = "s";
   string turnLeftKey = "a";
   string turnRightKey = "d";
   string dodgeKey = "f";
   string flipKey = "space";
   string affinityShiftKey = "e";
-  string bladeKey = "v";
-
-  StreamReader controls2;
 
   // Use this for initialization
   void Start()
@@ -114,50 +104,6 @@ public class playerControls : MonoBehaviour
     ebOld.position = energyBarT.position;
     ebOld.name = "ebPub";
     energyBarT.name = "ebName";
-    controls2 = new StreamReader("save.txt");
-    for (int number = 0; number < 14; number++)
-    {
-      if (number == 0)
-      {
-        shootKey = controls2.ReadLine().ToString();
-      }
-      if (number == 1)
-      {
-        missleKey = controls2.ReadLine().ToString();
-      }
-      if (number == 6)
-      {
-        affinityShiftKey = controls2.ReadLine().ToString();
-      }
-      if (number == 7)
-      {
-        flipKey = controls2.ReadLine().ToString();
-      }
-      if (number == 8)
-      {
-        turnRightKey = controls2.ReadLine().ToString();
-      }
-      if (number == 9)
-      {
-        turnLeftKey = controls2.ReadLine().ToString();
-      }
-      if (number == 10)
-      {
-        dodgeKey = controls2.ReadLine().ToString();
-      }
-      if (number == 11)
-      {
-        switchGunKey = controls2.ReadLine().ToString();
-      }
-      if (number == 12)
-      {
-        chargeKey = controls2.ReadLine().ToString();
-      }
-      if (number == 13)
-      {
-        bladeKey = controls2.ReadLine().ToString();
-      }
-    }
   }
 
   void OnCollisionEnter(Collision damage)
@@ -368,17 +314,11 @@ public class playerControls : MonoBehaviour
     }
 
     //Use blade
-    if ((Input.GetKeyDown(bladeKey)) && (blade == false))
+    if ((Input.GetButtonDown("Fire3")) && (blade == false))
     {
-      if (blade == false)
-      {
-        blade = true;
-      }
-      else
-      {
-        blade = false;
-      }
+      blade = !blade;
     }
+
     if (blade == true)
     {
       bladeT.position = playerT.position;
@@ -440,7 +380,7 @@ public class playerControls : MonoBehaviour
     //Shoot
     mgTimer -= Time.deltaTime;
     mTimer -= Time.deltaTime;
-    if (Input.GetKey(shootKey))
+    if (Input.GetButton("Fire1"))
     {
       if ((machineGun == true) && (mgTimer <= 0))
       {
@@ -456,30 +396,12 @@ public class playerControls : MonoBehaviour
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.name = "bulletBlack";
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 8);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
           if (spreader == true)
           {
@@ -487,30 +409,12 @@ public class playerControls : MonoBehaviour
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 8);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
         }
         if (level >= 1)
@@ -521,30 +425,12 @@ public class playerControls : MonoBehaviour
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 12);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
           if (spreader == true)
           {
@@ -553,31 +439,13 @@ public class playerControls : MonoBehaviour
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * -2000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 12);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(10, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * 2000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
         }
         if (level >= 2)
@@ -588,30 +456,12 @@ public class playerControls : MonoBehaviour
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 16);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
           if (spreader == true)
           {
@@ -620,31 +470,13 @@ public class playerControls : MonoBehaviour
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * -4000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 16);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(20, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * 4000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
         }
         if (level >= 3)
@@ -655,30 +487,12 @@ public class playerControls : MonoBehaviour
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 20);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
           if (spreader == true)
           {
@@ -687,31 +501,13 @@ public class playerControls : MonoBehaviour
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * -6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 20);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(40, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
         }
         if (level >= 4)
@@ -722,30 +518,12 @@ public class playerControls : MonoBehaviour
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 24);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
           if (spreader == true)
           {
@@ -754,31 +532,13 @@ public class playerControls : MonoBehaviour
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * -8000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
             bulletPrefabTransform.Translate(Vector3.right * 24);
             bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(50, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
             bulletInstance.AddForce(playerT.forward * 6000);
             bulletInstance.AddForce(playerT.right * 8000);
             Destroy(bulletInstance.gameObject, 3.0f);
-            if (affinity == true)
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
-              bulletInstance.gameObject.name = "bulletWhite";
-            }
-            else
-            {
-              bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
-              bulletInstance.gameObject.name = "bulletBlack";
-            }
+            SetBulletProperties(bulletInstance);
           }
         }
       }
@@ -813,16 +573,9 @@ public class playerControls : MonoBehaviour
     }
 
     //Turn missiles on and off
-    if (Input.GetKeyDown(missleKey))
+    if (Input.GetButtonDown("Fire2"))
     {
-      if (missiles == true)
-      {
-        missiles = false;
-      }
-      else
-      {
-        missiles = true;
-      }
+      missiles = !missiles;
     }
 
     //Switch between spreader and focus mode
@@ -838,6 +591,20 @@ public class playerControls : MonoBehaviour
         spreader = false;
         focus = true;
       }
+    }
+  }
+
+  private void SetBulletProperties(Rigidbody bulletInstance)
+  {
+    if (affinity == true)
+    {
+      bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.white;
+      bulletInstance.gameObject.name = "bulletWhite";
+    }
+    else
+    {
+      bulletInstance.gameObject.GetComponent<Renderer>().material.color = Color.black;
+      bulletInstance.gameObject.name = "bulletBlack";
     }
   }
 
