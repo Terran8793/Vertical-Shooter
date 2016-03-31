@@ -88,8 +88,6 @@ public class playerControls : MonoBehaviour
   string turnLeftKey = "a";
   string turnRightKey = "d";
   string dodgeKey = "f";
-  string flipKey = "space";
-  string affinityShiftKey = "e";
 
   // Use this for initialization
   void Start()
@@ -295,7 +293,7 @@ public class playerControls : MonoBehaviour
 
     //Affinity Shift
     aTimer -= Time.deltaTime;
-    if (Input.GetKey(affinityShiftKey))
+    if (Input.GetButtonDown("Affinity"))
     {
       if (aTimer <= 0.0)
       {
@@ -719,14 +717,14 @@ public class playerControls : MonoBehaviour
           up = true;
           down = false;
         }
-        else 
+        else
         {
           down = true;
           up = false;
         }
         float sign = -Mathf.Sign(vertical);
         playerZC += sign * 1;
-        if ((Input.GetKey(dodgeKey)) && (dodge == true) && (boost == true))
+        if (Input.GetButtonDown("Dodge") && (dodge == true) && (boost == true))
         {
           dodge = false;
         }
@@ -760,7 +758,7 @@ public class playerControls : MonoBehaviour
         float sign = -Mathf.Sign(horizontal);
 
         playerXC += sign * 1;
-        if ((Input.GetKey(dodgeKey)) && (dodge == true) && (boost == true))
+        if (Input.GetButtonDown("Dodge") && (dodge == true) && (boost == true))
         {
           dodge = false;
         }
@@ -779,7 +777,7 @@ public class playerControls : MonoBehaviour
       }
 
       //Lean and Flip
-      if (Input.GetKeyDown(flipKey))
+      if (Input.GetButtonDown("Flip"))
       {
         if (leanLeft == true)
         {
@@ -820,9 +818,10 @@ public class playerControls : MonoBehaviour
       }
       if ((turnUp == false) && (turnDown == false))
       {
+        float turn = Input.GetAxis("Turn");
         if (flip == false)
         {
-          if (Input.GetKey(turnRightKey))
+          if (turn > 0)
           {
             if (center == true)
             {
@@ -839,7 +838,7 @@ public class playerControls : MonoBehaviour
               center = true;
             }
           }
-          else if (Input.GetKey(turnLeftKey))
+          else if (turn < 0)
           {
             if (center == true)
             {
@@ -859,7 +858,7 @@ public class playerControls : MonoBehaviour
         }
         if (flip == true)
         {
-          if (Input.GetKey(turnRightKey))
+          if (turn > 0)
           {
             if (center == true)
             {
@@ -876,7 +875,7 @@ public class playerControls : MonoBehaviour
               center = true;
             }
           }
-          else if (Input.GetKey(turnLeftKey))
+          else if (turn < 0)
           {
             if (center == true)
             {
