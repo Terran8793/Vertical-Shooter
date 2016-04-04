@@ -41,6 +41,8 @@ public class playerControls : MonoBehaviour
   bool spreader = false;
   bool focus = true;
   bool quit = false;
+  bool IsLower = false;
+
   double quitCountDown = 4.0;
   double dodgeTimer = 0.5;
   double dodgeTimer2 = 0.0;
@@ -251,6 +253,15 @@ public class playerControls : MonoBehaviour
     }
   }
 
+  void CreateBullet(Vector3 location)
+  {
+    bulletPrefabTransform.Translate(location);
+   var bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
+    bulletInstance.AddForce(playerT.forward * 6000);
+    Destroy(bulletInstance.gameObject, 3.0f);
+    SetBulletProperties(bulletInstance);
+
+  }
   void gun()
   {
     //Determine Bullet Type
@@ -390,45 +401,22 @@ public class playerControls : MonoBehaviour
         {
           if (focus == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 4);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 8);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet( Vector3.left * 4);
+
+            CreateBullet(Vector3.right * 8);
           }
           if (spreader == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 4);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 8);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 4);
+            CreateBullet(Vector3.right * 8);
           }
         }
         if (level >= 1)
         {
           if (focus == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 10);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 12);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 10);
+            CreateBullet(Vector3.right * 12);
           }
           if (spreader == true)
           {
@@ -685,6 +673,20 @@ public class playerControls : MonoBehaviour
         dodgeCancel = true;
       }
 
+      if (Input.GetButtonDown("HeightUp") && IsLower)
+      {
+        IsLower = false;
+
+      }
+      if (Input.GetButtonDown("HeightDown") && IsLower == false)
+      {
+        IsLower = true;
+      }
+
+      if (IsLower)
+        playerYC = 60;
+      else
+        playerYC = 70;
       //Movement
       playerT.position = new Vector3(playerXC, playerYC, playerZC);
       if (dodge == false)
@@ -911,6 +913,7 @@ public class playerControls : MonoBehaviour
       {
         gun();
       }
+
     }
   }
 }
