@@ -252,12 +252,12 @@ public class playerControls : MonoBehaviour
       rotate = 0;
     }
   }
-
-  void CreateBullet(Vector3 location)
+  void CreateBullet(Vector3 location, Vector3 forceForward, Vector3 forceHorizontal , Quaternion rotation )
   {
     bulletPrefabTransform.Translate(location);
-   var bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-    bulletInstance.AddForce(playerT.forward * 6000);
+   var bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
+    bulletInstance.AddForce(forceForward);
+    bulletInstance.AddForce(forceHorizontal );
     Destroy(bulletInstance.gameObject, 3.0f);
     SetBulletProperties(bulletInstance);
 
@@ -401,130 +401,66 @@ public class playerControls : MonoBehaviour
         {
           if (focus == true)
           {
-            CreateBullet( Vector3.left * 4);
-
-            CreateBullet(Vector3.right * 8);
+            CreateBullet( Vector3.left * 4, playerT.forward * 6000, Vector3.zero, Quaternion.identity );
+            CreateBullet(Vector3.right * 8, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
           if (spreader == true)
           {
-            CreateBullet(Vector3.left * 4);
-            CreateBullet(Vector3.right * 8);
+            CreateBullet(Vector3.left * 4, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
+            CreateBullet(Vector3.right * 8, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
         }
         if (level >= 1)
         {
           if (focus == true)
           {
-            CreateBullet(Vector3.left * 10);
-            CreateBullet(Vector3.right * 12);
+            CreateBullet(Vector3.left * 10, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
+            CreateBullet(Vector3.right * 12, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
           if (spreader == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 10);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-10, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * -2000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 12);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(10, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * 2000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left*10, playerT.forward*6000, playerT.right*-2000, Quaternion.AngleAxis(-10, Vector3.up));
+            CreateBullet(Vector3.right * 12, playerT.forward * 6000, playerT.right * 2000, Quaternion.AngleAxis(10, Vector3.up));
           }
         }
         if (level >= 2)
         {
           if (focus == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 14);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 16);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 14, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
+            CreateBullet(Vector3.right * 16, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
           if (spreader == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 14);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-20, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * -4000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 16);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(20, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * 4000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 14, playerT.forward * 6000, playerT.right * -4000, Quaternion.AngleAxis(-20, Vector3.up));
+            CreateBullet(Vector3.right * 16, playerT.forward * 6000, playerT.right * 4000, Quaternion.AngleAxis(20, Vector3.up));
           }
         }
         if (level >= 3)
         {
           if (focus == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 18);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 20);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 18, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
+            CreateBullet(Vector3.right * 20, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
           if (spreader == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 18);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-40, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * -6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 20);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(40, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 18, playerT.forward * 6000, playerT.right * -6000, Quaternion.AngleAxis(-40, Vector3.up));
+            CreateBullet(Vector3.right * 20, playerT.forward * 6000, playerT.right * 6000, Quaternion.AngleAxis(40, Vector3.up));
           }
         }
         if (level >= 4)
         {
           if (focus == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 22);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 24);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 22, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
+            CreateBullet(Vector3.right * 24, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
           if (spreader == true)
           {
-            bulletPrefabTransform.Translate(Vector3.left * 22);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(-50, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * -8000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
-            bulletPrefabTransform.Translate(Vector3.right * 24);
-            bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * Quaternion.AngleAxis(50, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
-            bulletInstance.AddForce(playerT.forward * 6000);
-            bulletInstance.AddForce(playerT.right * 8000);
-            Destroy(bulletInstance.gameObject, 3.0f);
-            SetBulletProperties(bulletInstance);
+            CreateBullet(Vector3.left * 22, playerT.forward * 6000, playerT.right * -8000, Quaternion.AngleAxis(-50, Vector3.up));
+            CreateBullet(Vector3.right * 24, playerT.forward * 6000, playerT.right * 8000, Quaternion.AngleAxis(50, Vector3.up));
+
           }
         }
       }
