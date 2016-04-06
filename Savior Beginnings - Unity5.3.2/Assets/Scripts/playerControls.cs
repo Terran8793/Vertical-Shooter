@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.IO;
 using System.Collections;
+using System;
 
 public class playerControls : MonoBehaviour
 {
@@ -469,28 +470,7 @@ public class playerControls : MonoBehaviour
         Rigidbody missileInstance;
         missilePrefabTransform.position = playerT.position;
         mTimer = 0.4;
-        if (flip == false)
-        {
-          missilePrefabTransform.Translate(Vector3.left * 2);
-          missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation) as Rigidbody;
-          missileInstance.AddForce(playerT.forward * 4000);
-          Destroy(missileInstance.gameObject, 4.0f);
-          missilePrefabTransform.Translate(Vector3.right * 4);
-          missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation) as Rigidbody;
-          missileInstance.AddForce(playerT.forward * 4000);
-          Destroy(missileInstance.gameObject, 4.0f);
-        }
-        if (flip == true)
-        {
-          missilePrefabTransform.Translate(Vector3.left * 2);
-          missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * Quaternion.AngleAxis(-180, Vector3.right)) as Rigidbody;
-          missileInstance.AddForce(playerT.forward * 4000);
-          Destroy(missileInstance.gameObject, 4.0f);
-          missilePrefabTransform.Translate(Vector3.right * 4);
-          missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * Quaternion.AngleAxis(-180, Vector3.right)) as Rigidbody;
-          missileInstance.AddForce(playerT.forward * 4000);
-          Destroy(missileInstance.gameObject, 4.0f);
-        }
+        CreateMissiles();
       }
     }
 
@@ -514,6 +494,22 @@ public class playerControls : MonoBehaviour
         focus = true;
       }
     }
+  }
+
+  private void CreateMissiles()
+  {
+    Rigidbody missileInstance;
+    Quaternion rotation = Quaternion.identity;
+    if (flip)
+      rotation = Quaternion.AngleAxis(-180, Vector3.right);
+      missilePrefabTransform.Translate(Vector3.left * 2);
+      missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * rotation ) as Rigidbody;
+      missileInstance.AddForce(playerT.forward * 4000);
+      Destroy(missileInstance.gameObject, 4.0f);
+      missilePrefabTransform.Translate(Vector3.right * 4);
+      missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * rotation ) as Rigidbody;
+      missileInstance.AddForce(playerT.forward * 4000);
+      Destroy(missileInstance.gameObject, 4.0f);
   }
 
   private void SetBulletProperties(Rigidbody bulletInstance)
