@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Main Menu\controlsScript.cs" />
     <Compile Include="Assets\Scripts\Main Menu\mainMenu.cs" />
+    <Compile Include="Assets\Scripts\ScoreControler.cs" />
     <Compile Include="Assets\Scripts\battleshipAI.cs" />
     <Compile Include="Assets\Scripts\blade.cs" />
     <Compile Include="Assets\Scripts\droneBigScript.cs" />

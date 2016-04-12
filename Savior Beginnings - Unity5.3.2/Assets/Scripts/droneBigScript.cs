@@ -17,11 +17,13 @@ public class droneBigScript : MonoBehaviour {
 	int health = 100; 
 	Rigidbody droneBRB; 
 	double randomNumber = 0.0; 
-	Text count; 
+	Text count;
+  ScoreControler score;
 
 	//Use this for initilization
 	void Start()
 	{
+	  score = ScoreControler.Get();
 		if(affinity == 1)
 		{
 			gameObject.GetComponent<Renderer>().material.color = Color.white; 
@@ -43,36 +45,42 @@ public class droneBigScript : MonoBehaviour {
 			health -= 100; 
 		}
 		if(health <= 0)
-		{
-			float increment = 2;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, this.transform.position, this.transform.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				if(name == "drone1(Clone)")
-				{
-					wP.AddForce(this.transform.forward * 2000); 
-				}
-				if(name == "drone2(Clone)")
-				{
-					wP.AddForce(this.transform.forward * -2000);
-				}
-			}
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 4); 
-			}
-		}
-	}
+    {
+      ImDead();
+    }
+  }
 
-	//Called when drone is hit by something
-	void OnCollisionEnter(Collision droneC)
+  private void ImDead()
+  {
+    float increment = 2;
+    score.AddScore(increment);
+    //float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x;
+    //GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);
+    //GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString();
+    Destroy(this.gameObject);
+    randomNumber = Random.value;
+    if (randomNumber > 0.9)
+    {
+      Rigidbody wP;
+      wP = Instantiate(weaponPowerup, this.transform.position, this.transform.rotation) as Rigidbody;
+      wP.name = "weaponPowerup";
+      if (name == "drone1(Clone)")
+      {
+        wP.AddForce(this.transform.forward * 2000);
+      }
+      if (name == "drone2(Clone)")
+      {
+        wP.AddForce(this.transform.forward * -2000);
+      }
+    }
+    if (GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
+    {
+      GameObject.Find("ebName").transform.Translate(Vector3.down * 4);
+    }
+  }
+
+  //Called when drone is hit by something
+  void OnCollisionEnter(Collision droneC)
 	{
 		if(droneC.gameObject.name == "bulletWhite")
 		{
@@ -107,32 +115,9 @@ public class droneBigScript : MonoBehaviour {
 		{
 			health -= 5; 
 		}
-		if((health <= 0) || (this.transform.position.z > 600) || (this.transform.position.z < -100)) 
+		if((health <= 0) || (this.transform.position.z > 600) || (this.transform.position.z < -100))
 		{
-			float increment = 20;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, this.transform.position, this.transform.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				if(name == "droneBig1")
-				{
-					wP.AddForce(this.transform.forward * 2000); 
-				}
-				if(name == "droneBig2")
-				{
-					wP.AddForce(this.transform.forward * -2000);
-				}
-			}
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 4); 
-			}
+		  ImDead();
 		}
 	}
 

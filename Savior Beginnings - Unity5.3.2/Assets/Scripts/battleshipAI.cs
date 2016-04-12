@@ -19,8 +19,13 @@ public class battleshipAI : MonoBehaviour {
 	double timer2 = 3.0; 
 	Rigidbody bBullet; 
 	Rigidbody btorpedo;
-	double randomNumber = 0.0; 
+	double randomNumber = 0.0;
+  ScoreControler score;
 
+  void Start()
+  {
+    score = FindObjectOfType<ScoreControler>();
+  }
 	void OnParticleCollision(GameObject particle)
 	{
 		if(particle.gameObject.name == "screenClearEffect")
@@ -28,29 +33,36 @@ public class battleshipAI : MonoBehaviour {
 			health -= 500; 
 		}
 		if(health <= 0)
-		{
-			float increment = 200;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, battleshipTransfrom.position, battleshipTransfrom.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				wP.AddForce(battleshipTransfrom.forward * 2000); 
-			}
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 40); 
-			}
-		}
-	}
+    {
+      ImDead();
+    }
+  }
 
-	//Called when drone is hit by something
-	void OnCollisionEnter(Collision droneC)
+  private void ImDead()
+  {
+    float increment = 200;
+    score.AddScore(increment);
+
+    //   float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
+    //GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
+    //GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
+    Destroy(this.gameObject);
+    randomNumber = Random.value;
+    if (randomNumber > 0.9)
+    {
+      Rigidbody wP;
+      wP = Instantiate(weaponPowerup, battleshipTransfrom.position, battleshipTransfrom.rotation) as Rigidbody;
+      wP.name = "weaponPowerup";
+      wP.AddForce(battleshipTransfrom.forward * 2000);
+    }
+    if (GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
+    {
+      GameObject.Find("ebName").transform.Translate(Vector3.down * 40);
+    }
+  }
+
+  //Called when drone is hit by something
+  void OnCollisionEnter(Collision droneC)
 	{
 		if(droneC.gameObject.name == "bulletWhite")
 		{
@@ -87,23 +99,7 @@ public class battleshipAI : MonoBehaviour {
 		}
 		if(health <= 0)
 		{
-			float increment = 200;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, battleshipTransfrom.position, battleshipTransfrom.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				wP.AddForce(battleshipTransfrom.forward * 2000); 
-			}
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 40); 
-			}
+		  ImDead();
 		}
 	}
 	
