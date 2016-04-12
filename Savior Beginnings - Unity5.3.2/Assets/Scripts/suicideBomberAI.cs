@@ -12,8 +12,13 @@ public class suicideBomberAI : MonoBehaviour {
 	bool pause = false; 
 	int health = 10; 
 	double fighterTimer = 1.0; 
-	double randomNumber = 0.0; 
+	double randomNumber = 0.0;
+  ScoreControler score;
 
+  void Start()
+  {
+    score = ScoreControler.Get();
+  }
 	void OnParticleCollision(GameObject particle)
 	{
 		if(particle.gameObject.name == "screenClearEffect")
@@ -21,29 +26,35 @@ public class suicideBomberAI : MonoBehaviour {
 			health -= 100; 
 		}
 		if(health <= 0)
-		{
-			float increment = 20;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, bomberTransform.position, bomberTransform.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				wP.AddForce(bomberTransform.forward * 2000); 
-			}
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 20); 
-			}
-		}
-	}
-	
-	//Called when enemy is hit by something
-	void OnCollisionEnter(Collision droneC)
+    {
+      ImDead();
+    }
+  }
+
+  private void ImDead()
+  {
+    float increment = 20;
+    score.AddScore(increment);
+    //float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x;
+    //GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);
+    //GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString();
+    Destroy(this.gameObject);
+    randomNumber = Random.value;
+    if (randomNumber > 0.9)
+    {
+      Rigidbody wP;
+      wP = Instantiate(weaponPowerup, bomberTransform.position, bomberTransform.rotation) as Rigidbody;
+      wP.name = "weaponPowerup";
+      wP.AddForce(bomberTransform.forward * 2000);
+    }
+    if (GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
+    {
+      GameObject.Find("ebName").transform.Translate(Vector3.down * 20);
+    }
+  }
+
+  //Called when enemy is hit by something
+  void OnCollisionEnter(Collision droneC)
 	{
 		if(droneC.gameObject.name == "bulletWhite")
 		{
@@ -85,23 +96,7 @@ public class suicideBomberAI : MonoBehaviour {
 		}
 		if(health <= 0)
 		{
-			float increment = 20;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, bomberTransform.position, bomberTransform.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				wP.AddForce(bomberTransform.forward * 2000); 
-			}
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 20); 
-			}
+		  ImDead();
 		}
 	}
 	

@@ -20,11 +20,13 @@ public class sphereBossScript : MonoBehaviour {
 	double missileTimerWhite = 3.0;
 	double missileTimerBlack = 4.5; 
 	double switchModeTimer = 30.0;
-	bool init = true; 
+	bool init = true;
+  ScoreControler score;
 
 	// Use this for initialization
-	void Start() 
+	void Start()
 	{
+	  score = ScoreControler.Get();
 		if(affinity == 1)
 		{
 			gameObject.GetComponent<Renderer>().material.color = Color.white; 
@@ -44,21 +46,27 @@ public class sphereBossScript : MonoBehaviour {
 			health -= 500; 
 		}
 		if(health <= 0)
-		{
-			float increment = 2;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 4); 
-			}
-		}
-	}
-	
-	//Called when drone is hit by something
-	void OnCollisionEnter(Collision droneC)
+    {
+      ImDead();
+    }
+  }
+
+  private void ImDead()
+  {
+    float increment = 20;
+    score.AddScore(increment);
+    //float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x;
+    //GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);
+    //GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString();
+    Destroy(this.gameObject);
+    if (GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
+    {
+      GameObject.Find("ebName").transform.Translate(Vector3.down * 4);
+    }
+  }
+
+  //Called when drone is hit by something
+  void OnCollisionEnter(Collision droneC)
 	{
 		if(droneC.gameObject.name == "bulletWhite")
 		{
@@ -93,17 +101,9 @@ public class sphereBossScript : MonoBehaviour {
 		{
 			health -= 5; 
 		}
-		if((health <= 0) || (this.transform.position.z > 600) || (this.transform.position.z < -100)) 
+		if((health <= 0) || (this.transform.position.z > 600) || (this.transform.position.z < -100))
 		{
-			float increment = 20;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
-			{
-				GameObject.Find("ebName").transform.Translate(Vector3.down * 4); 
-			}
+		  ImDead();
 		}
 	}
 	

@@ -15,11 +15,12 @@ public class gattlingScript : MonoBehaviour {
 	int health = 1; 
 	double gTimer = 0.15; 
 	Rigidbody gRB;
-	double randomNumber = 0.0; 
-
+	double randomNumber = 0.0;
+  ScoreControler score;
 	// Use this for initialization
-	void Start () 
+	void Start ()
 	{
+	  score = ScoreControler.Get();
 		if(affinity == 1)
 		{
 			gameObject.GetComponent<Renderer>().material.color = Color.white; 
@@ -42,30 +43,37 @@ public class gattlingScript : MonoBehaviour {
 		}
 		if(health <= 0)
 		{
-			float increment = 1;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, gattlingTransform.position, gattlingTransform.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				if(name == "gattling1")
-				{
-					wP.AddForce(gattlingTransform.forward * 2000); 
-				}
-				if(name == "gattling2")
-				{
-					wP.AddForce(gattlingTransform.forward * -2000); 
-				}
-			}
+			ImDead();
 		}
 	}
-	
-	//Called when drone is hit by something
+
+  private void ImDead()
+  {
+    float increment = 1;
+    score.AddScore(increment);
+    //float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x;
+    //GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);
+    //GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " +
+    //                                                     GameObject.Find("SCOREAMOUNT").transform.position.x.ToString();
+    Destroy(this.gameObject);
+    randomNumber = Random.value;
+    if (randomNumber > 0.9)
+    {
+      Rigidbody wP;
+      wP = Instantiate(weaponPowerup, gattlingTransform.position, gattlingTransform.rotation) as Rigidbody;
+      wP.name = "weaponPowerup";
+      if (name == "gattling1")
+      {
+        wP.AddForce(gattlingTransform.forward*2000);
+      }
+      if (name == "gattling2")
+      {
+        wP.AddForce(gattlingTransform.forward*-2000);
+      }
+    }
+  }
+
+  //Called when drone is hit by something
 	void OnCollisionEnter(Collision droneC)
 	{
 		if(droneC.gameObject.name == "bulletWhite")
@@ -101,28 +109,9 @@ public class gattlingScript : MonoBehaviour {
 		{
 			health -= 5; 
 		}
-		if((health <= 0) || (this.transform.position.z > 600) || (this.transform.position.z < -100)) 
+		if((health <= 0) || (this.transform.position.z > 600) || (this.transform.position.z < -100))
 		{
-			float increment = 1;  
-			float wholeAmount = GameObject.Find("SCOREAMOUNT").transform.position.x; 
-			GameObject.Find("SCOREAMOUNT").transform.position = new Vector3(wholeAmount + increment, 0, 0);  
-			GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + GameObject.Find("SCOREAMOUNT").transform.position.x.ToString(); 
-			Destroy(this.gameObject); 
-			randomNumber = Random.value; 
-			if(randomNumber > 0.9)
-			{
-				Rigidbody wP; 
-				wP = Instantiate(weaponPowerup, gattlingTransform.position, gattlingTransform.rotation) as Rigidbody; 
-				wP.name = "weaponPowerup"; 
-				if(name == "gattling1")
-				{
-					wP.AddForce(gattlingTransform.forward * 2000); 
-				}
-				if(name == "gattling2")
-				{
-					wP.AddForce(gattlingTransform.forward * -2000); 
-				}
-			}
+		  ImDead();
 		}
 		if(GameObject.Find("ebName").transform.position.z < GameObject.Find("ebPub").transform.position.z)
 		{
