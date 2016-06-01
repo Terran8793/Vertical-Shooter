@@ -43,6 +43,7 @@ public class playerControls : MonoBehaviour
   bool focus = true;
   bool quit = false;
   bool IsLower = false;
+  public int MaxHealth = 75;
 
   double quitCountDown = 4.0;
   double dodgeTimer = 0.5;
@@ -92,13 +93,17 @@ public class playerControls : MonoBehaviour
   string turnRightKey = "d";
   string dodgeKey = "f";
 
+  public int GetHealth()
+  {
+    return playerHealth;
+  }
   // Use this for initialization
   void Start()
   {
     playerXC = playerT.position.x;
     playerYC = playerT.position.y;
     playerZC = playerT.position.z;
-    playerHealth = 75;
+    playerHealth = MaxHealth;
     gameObject.GetComponent<Renderer>().material.color = Color.white;
     playerT.gameObject.GetComponent<Renderer>().enabled = true;
     playerT.name = "playerCharacter";
@@ -122,7 +127,7 @@ public class playerControls : MonoBehaviour
     if (damage.gameObject.name == "missile")
     {
       playerHealth -= 25;
-      healthBarT.Translate(Vector3.up * 25);
+     // healthBarT.Translate(Vector3.up * 25);
     }
     if (damage.gameObject.name == "torpedoWhite")
     {
@@ -133,7 +138,7 @@ public class playerControls : MonoBehaviour
       if (affinity == false)
       {
         playerHealth -= 10;
-        healthBarT.Translate(Vector3.up * 10);
+      //  healthBarT.Translate(Vector3.up * 10);
       }
     }
     if (damage.gameObject.name == "torpedoBlack")
@@ -141,7 +146,7 @@ public class playerControls : MonoBehaviour
       if (affinity == true)
       {
         playerHealth -= 10;
-        healthBarT.Translate(Vector3.up * 10);
+      //  healthBarT.Translate(Vector3.up * 10);
       }
       if (affinity == false)
       {
@@ -151,7 +156,7 @@ public class playerControls : MonoBehaviour
     if (damage.gameObject.name == "torpedoGrey")
     {
       playerHealth -= 5;
-      healthBarT.Translate(Vector3.up * 5);
+      //healthBarT.Translate(Vector3.up * 5);
     }
     if (damage.gameObject.name == "fbWhite")
     {
@@ -162,7 +167,7 @@ public class playerControls : MonoBehaviour
       if (affinity == false)
       {
         playerHealth -= 5;
-        healthBarT.Translate(Vector3.up * 5);
+      //  healthBarT.Translate(Vector3.up * 5);
       }
     }
     if (damage.gameObject.name == "fbBlack")
@@ -170,7 +175,7 @@ public class playerControls : MonoBehaviour
       if (affinity == true)
       {
         playerHealth -= 5;
-        healthBarT.Translate(Vector3.up * 5);
+     //   healthBarT.Translate(Vector3.up * 5);
       }
       if (affinity == false)
       {
@@ -185,12 +190,12 @@ public class playerControls : MonoBehaviour
     if ((damage.gameObject.name == "droneBlack(Clone)") || (damage.gameObject.name == "droneBlack(Clone)") || (damage.gameObject.name == "fighterBlack(Clone)") || (damage.gameObject.name == "fighterWhite(Clone)") || (damage.gameObject.name == "platformWhite(Clone)") || (damage.gameObject.name == "platformBlack(Clone)"))
     {
       playerHealth -= 50;
-      healthBarT.Translate(Vector3.up * 50);
+     // healthBarT.Translate(Vector3.up * 50);
     }
     if (damage.gameObject.name == "suicideBomber")
     {
       playerHealth -= 100;
-      healthBarT.Translate(Vector3.up * 100);
+    //  healthBarT.Translate(Vector3.up * 100);
     }
     if (playerHealth <= 0)
     {
@@ -565,10 +570,10 @@ public class playerControls : MonoBehaviour
         shoot = true;
         pause = false;
         playerT.gameObject.GetComponent<Renderer>().enabled = true;
-        healthBarT.Translate(Vector3.down * (-playerHealth + 75));
+        //healthBarT.Translate(Vector3.down * (-playerHealth + 75));
         energyBarT.position = ebOld.position;
         GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: 0";
-        playerHealth = 75;
+        playerHealth = MaxHealth;
         level = 0;
       }
     }
