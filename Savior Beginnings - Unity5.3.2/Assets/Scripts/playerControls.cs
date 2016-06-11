@@ -44,6 +44,7 @@ public class playerControls : MonoBehaviour
   bool quit = false;
   bool IsLower = false;
   public int MaxHealth = 75;
+  public int MaxEnergy = 75;
 
   double quitCountDown = 4.0;
   double dodgeTimer = 0.5;
@@ -64,6 +65,7 @@ public class playerControls : MonoBehaviour
   Rigidbody missileNew;
   double mSpeed = 10.0;
   int playerHealth = 80;
+  private int playerEnergy = 75;
   double tTimer = 0.13;
   bool turnDown = false;
   bool turnUp = false;
@@ -97,6 +99,11 @@ public class playerControls : MonoBehaviour
   {
     return playerHealth;
   }
+
+  public int GetEnergy()
+  {
+    return playerEnergy;
+  }
   // Use this for initialization
   void Start()
   {
@@ -107,6 +114,7 @@ public class playerControls : MonoBehaviour
     gameObject.GetComponent<Renderer>().material.color = Color.white;
     playerT.gameObject.GetComponent<Renderer>().enabled = true;
     playerT.name = "playerCharacter";
+    playerEnergy = 0;
     ebOld.position = energyBarT.position;
     ebOld.name = "ebPub";
     energyBarT.name = "ebName";
@@ -127,7 +135,7 @@ public class playerControls : MonoBehaviour
     if (damage.gameObject.name == "missile")
     {
       playerHealth -= 25;
-     // healthBarT.Translate(Vector3.up * 25);
+      // healthBarT.Translate(Vector3.up * 25);
     }
     if (damage.gameObject.name == "torpedoWhite")
     {
@@ -138,7 +146,7 @@ public class playerControls : MonoBehaviour
       if (affinity == false)
       {
         playerHealth -= 10;
-      //  healthBarT.Translate(Vector3.up * 10);
+        //  healthBarT.Translate(Vector3.up * 10);
       }
     }
     if (damage.gameObject.name == "torpedoBlack")
@@ -146,7 +154,7 @@ public class playerControls : MonoBehaviour
       if (affinity == true)
       {
         playerHealth -= 10;
-      //  healthBarT.Translate(Vector3.up * 10);
+        //  healthBarT.Translate(Vector3.up * 10);
       }
       if (affinity == false)
       {
@@ -167,7 +175,7 @@ public class playerControls : MonoBehaviour
       if (affinity == false)
       {
         playerHealth -= 5;
-      //  healthBarT.Translate(Vector3.up * 5);
+        //  healthBarT.Translate(Vector3.up * 5);
       }
     }
     if (damage.gameObject.name == "fbBlack")
@@ -175,7 +183,7 @@ public class playerControls : MonoBehaviour
       if (affinity == true)
       {
         playerHealth -= 5;
-     //   healthBarT.Translate(Vector3.up * 5);
+        //   healthBarT.Translate(Vector3.up * 5);
       }
       if (affinity == false)
       {
@@ -185,17 +193,17 @@ public class playerControls : MonoBehaviour
     if (damage.gameObject.name == "fbGrey")
     {
       playerHealth -= 2;
-      healthBarT.Translate(Vector3.up * 2);
+      //   healthBarT.Translate(Vector3.up * 2);
     }
     if ((damage.gameObject.name == "droneBlack(Clone)") || (damage.gameObject.name == "droneBlack(Clone)") || (damage.gameObject.name == "fighterBlack(Clone)") || (damage.gameObject.name == "fighterWhite(Clone)") || (damage.gameObject.name == "platformWhite(Clone)") || (damage.gameObject.name == "platformBlack(Clone)"))
     {
       playerHealth -= 50;
-     // healthBarT.Translate(Vector3.up * 50);
+      // healthBarT.Translate(Vector3.up * 50);
     }
     if (damage.gameObject.name == "suicideBomber")
     {
       playerHealth -= 100;
-    //  healthBarT.Translate(Vector3.up * 100);
+      //  healthBarT.Translate(Vector3.up * 100);
     }
     if (playerHealth <= 0)
     {
@@ -258,12 +266,12 @@ public class playerControls : MonoBehaviour
       rotate = 0;
     }
   }
-  void CreateBullet(Vector3 location, Vector3 forceForward, Vector3 forceHorizontal , Quaternion rotation )
+  void CreateBullet(Vector3 location, Vector3 forceForward, Vector3 forceHorizontal, Quaternion rotation)
   {
     bulletPrefabTransform.Translate(location);
-   var bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
+    var bulletInstance = Instantiate(bulletPrefab, bulletPrefabTransform.position, bulletPrefabTransform.rotation * rotation * Quaternion.AngleAxis(-90, Vector3.right)) as Rigidbody;
     bulletInstance.AddForce(forceForward);
-    bulletInstance.AddForce(forceHorizontal );
+    bulletInstance.AddForce(forceHorizontal);
     Destroy(bulletInstance.gameObject, 3.0f);
     SetBulletProperties(bulletInstance);
 
@@ -358,9 +366,10 @@ public class playerControls : MonoBehaviour
       }
       if (aoe == true)
       {
-        if (energyBarT.position.z > ebOld.position.z - 72)
+        if (playerEnergy < MaxEnergy)
         {
-          energyBarT.Translate(Vector3.up * 1);
+          playerEnergy ++;
+         // energyBarT.Translate(Vector3.up * 1);
         }
         else
         {
@@ -372,6 +381,7 @@ public class playerControls : MonoBehaviour
             chargeAttack = false;
             explosionTimer = 0.1;
             aoe = false;
+            playerEnergy = 0;
           }
         }
       }
@@ -407,7 +417,7 @@ public class playerControls : MonoBehaviour
         {
           if (focus == true)
           {
-            CreateBullet( Vector3.left * 4, playerT.forward * 6000, Vector3.zero, Quaternion.identity );
+            CreateBullet(Vector3.left * 4, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
             CreateBullet(Vector3.right * 8, playerT.forward * 6000, Vector3.zero, Quaternion.identity);
           }
           if (spreader == true)
@@ -425,7 +435,7 @@ public class playerControls : MonoBehaviour
           }
           if (spreader == true)
           {
-            CreateBullet(Vector3.left*10, playerT.forward*6000, playerT.right*-2000, Quaternion.AngleAxis(-10, Vector3.up));
+            CreateBullet(Vector3.left * 10, playerT.forward * 6000, playerT.right * -2000, Quaternion.AngleAxis(-10, Vector3.up));
             CreateBullet(Vector3.right * 12, playerT.forward * 6000, playerT.right * 2000, Quaternion.AngleAxis(10, Vector3.up));
           }
         }
@@ -507,14 +517,14 @@ public class playerControls : MonoBehaviour
     Quaternion rotation = Quaternion.identity;
     if (flip)
       rotation = Quaternion.AngleAxis(-180, Vector3.right);
-      missilePrefabTransform.Translate(Vector3.left * 2);
-      missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * rotation ) as Rigidbody;
-      missileInstance.AddForce(playerT.forward * 4000);
-      Destroy(missileInstance.gameObject, 4.0f);
-      missilePrefabTransform.Translate(Vector3.right * 4);
-      missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * rotation ) as Rigidbody;
-      missileInstance.AddForce(playerT.forward * 4000);
-      Destroy(missileInstance.gameObject, 4.0f);
+    missilePrefabTransform.Translate(Vector3.left * 2);
+    missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * rotation) as Rigidbody;
+    missileInstance.AddForce(playerT.forward * 4000);
+    Destroy(missileInstance.gameObject, 4.0f);
+    missilePrefabTransform.Translate(Vector3.right * 4);
+    missileInstance = Instantiate(missilePrefab, missilePrefabTransform.position, missilePrefabTransform.rotation * rotation) as Rigidbody;
+    missileInstance.AddForce(playerT.forward * 4000);
+    Destroy(missileInstance.gameObject, 4.0f);
   }
 
   private void SetBulletProperties(Rigidbody bulletInstance)

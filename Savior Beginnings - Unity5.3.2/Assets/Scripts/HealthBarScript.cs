@@ -28,7 +28,7 @@ public class HealthBarScript : MonoBehaviour
 	    if (player.GetHealth() < MaxHealth)
 	    {
 	      barTransform.transform.Translate(Vector3.down*diff);
-	      CurrentHealth = CurrentHealth = player.GetHealth();
+	      CurrentHealth  = player.GetHealth();
 	    }
 	    else
 	    {
